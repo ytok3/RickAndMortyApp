@@ -10,10 +10,17 @@ import AlamofireImage
 
 protocol CharacterDetailOutput {
     func listCharacterDetail(model: CharacterDetail?)
+    func lastEpisode(value: String)
     
+}
+protocol EpisodeDetailOutput {
+    func episodeDetail(model: LastEpisode?)
 }
 
 class CharacterDetailViewController: UIViewController {
+    
+    var lastSeenEpisode: String?
+    private let charactersViewModel: CharactersViewModelProtocol = CharactersViewModel()
     
     // MARK: View
     
@@ -38,7 +45,7 @@ class CharacterDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.clipsToBounds = true
             label.textColor = .black
-            label.font = UIFont.boldSystemFont(ofSize: 25)
+            label.font = UIFont.boldSystemFont(ofSize: 22)
             label.numberOfLines = 0
             label.backgroundColor = .white
             return label
@@ -49,7 +56,7 @@ class CharacterDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.clipsToBounds = true
             label.textColor = .black
-            label.font = UIFont.boldSystemFont(ofSize: 17)
+            label.font = UIFont.boldSystemFont(ofSize: 16)
             label.numberOfLines = 0
             label.backgroundColor = .white
             return label
@@ -60,7 +67,7 @@ class CharacterDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.clipsToBounds = true
             label.textColor = .black
-            label.font = UIFont.boldSystemFont(ofSize: 17)
+            label.font = UIFont.boldSystemFont(ofSize: 16)
             label.numberOfLines = 0
             label.backgroundColor = .white
             return label
@@ -71,7 +78,7 @@ class CharacterDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.clipsToBounds = true
             label.textColor = .black
-            label.font = UIFont.boldSystemFont(ofSize: 17)
+            label.font = UIFont.boldSystemFont(ofSize: 16)
             label.numberOfLines = 0
             label.backgroundColor = .white
             return label
@@ -82,7 +89,7 @@ class CharacterDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.clipsToBounds = true
             label.textColor = .black
-            label.font = UIFont.boldSystemFont(ofSize: 17)
+            label.font = UIFont.boldSystemFont(ofSize: 16)
             label.numberOfLines = 0
             label.backgroundColor = .white
             return label
@@ -93,7 +100,7 @@ class CharacterDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.clipsToBounds = true
             label.textColor = .black
-            label.font = UIFont.boldSystemFont(ofSize: 17)
+            label.font = UIFont.boldSystemFont(ofSize: 16)
             label.numberOfLines = 0
             label.backgroundColor = .white
             return label
@@ -104,7 +111,7 @@ class CharacterDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.clipsToBounds = true
             label.textColor = .black
-            label.font = UIFont.boldSystemFont(ofSize: 17)
+            label.font = UIFont.boldSystemFont(ofSize: 16)
             label.numberOfLines = 0
             label.backgroundColor = .white
             return label
@@ -115,7 +122,7 @@ class CharacterDetailViewController: UIViewController {
             label.translatesAutoresizingMaskIntoConstraints = false
             label.clipsToBounds = true
             label.textColor = .black
-            label.font = UIFont.boldSystemFont(ofSize: 17)
+            label.font = UIFont.boldSystemFont(ofSize: 16)
             label.numberOfLines = 0
             label.backgroundColor = .white
             return label
@@ -125,7 +132,7 @@ class CharacterDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         setUpView()
     }
     
@@ -208,17 +215,32 @@ class CharacterDetailViewController: UIViewController {
 // MARK: Extension
 
 extension CharacterDetailViewController: CharacterDetailOutput {
-  
+   
     func listCharacterDetail(model: CharacterDetail?) {
         
         nameLabel.text = (model?.name)!
         statusLabel.text = Path.CharacterDetailPath.STATUS + (model?.status)!
         speciesLabel.text = Path.CharacterDetailPath.SPECIES + (model?.species)!
-        numberOfEpisodesLabel.text = Path.CharacterDetailPath.EPISODES + "\(String(describing: model?.episode?.count))"
+        numberOfEpisodesLabel.text = Path.CharacterDetailPath.EPISODES + "\(model?.episode?.count ?? 0)"
         genderLabel.text = Path.CharacterDetailPath.GENDER + (model?.gender)!
         originLocationNameLabel.text = Path.CharacterDetailPath.ORIGIN_LOCATION + (model?.origin?.name)!
         lastKnownLocationNameLabel.text = Path.CharacterDetailPath.KNOWN_LOCATION + (model?.location?.name)!
-        lastSeenEpisodeNameLabel.text = Path.CharacterDetailPath.LAST_EPISODES + (model?.episode?.last)!
         characterImage.af.setImage(withURL: URL(string: (model?.image)!)!)
+    }
+    
+    func lastEpisode(value: String) {
+        lastSeenEpisode = value
+        print(lastSeenEpisode ?? "" )
+        charactersViewModel.setDelegateLastEpisode(output: self)
+        charactersViewModel.episodeDetail(episode: lastSeenEpisode ?? "")
+    }
+}
+
+extension CharacterDetailViewController: EpisodeDetailOutput {
+    
+    func episodeDetail(model: LastEpisode?) {
+        lastSeenEpisodeNameLabel.text = Path.CharacterDetailPath.LAST_EPISODES + "\n"
+            + Path.CharacterDetailPath.LAST_EPISODES_NAME + ((model?.name)!) + "\n"
+            + Path.CharacterDetailPath.LAST_EPISODES_AIR_DATE + ((model?.airDate ?? ""))
     }
 }

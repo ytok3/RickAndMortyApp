@@ -130,7 +130,7 @@ extension CharacterViewController: UISearchBarDelegate {
         
         let split = searchBar.text!.components(separatedBy: .whitespaces)
         
-        if split.count == 2 {
+        if split.count > 1 {
             let first = split[0]
             let last = split[1]
             
