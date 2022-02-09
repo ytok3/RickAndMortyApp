@@ -14,7 +14,8 @@ protocol CharactersViewModelProtocol {
     var charactersOutput: CharactersOutput? {get}
     var characterDetail: CharacterDetail? {get set}
     var characterDetailOutput: CharacterDetailOutput? {get}
-    var search: [Character]? {get set}
+    var searchName: [Character]? {get set}
+    var searchStatus: [Character]? {get set}
     var searchOutput : SearchBarOutput? {get}
     var lastEpisode: LastEpisode? {get set}
     var episodeDetailOutput: EpisodeDetailOutput? {get}
@@ -24,13 +25,13 @@ protocol CharactersViewModelProtocol {
     func setDelegateCharacterDetail(output: CharacterDetailOutput)
     func characterDetail(id: Int)
     func setDelegateSearch(output: SearchBarOutput)
-    func searchList(name: String, status: String)
+    func searchList(searchResults: String)
     func setDelegateLastEpisode(output: EpisodeDetailOutput)
     func episodeDetail(episode: String)
 }
 
 final class CharactersViewModel: CharactersViewModelProtocol {
-
+   
     // MARK: Properties
    
     var characters: [Character]? = []
@@ -38,7 +39,8 @@ final class CharactersViewModel: CharactersViewModelProtocol {
     var charactersOutput: CharactersOutput?
     var characterDetail: CharacterDetail?
     var characterDetailOutput: CharacterDetailOutput?
-    var search: [Character]?
+    var searchName: [Character]?
+    var searchStatus: [Character]?
     var searchOutput: SearchBarOutput?
     var lastEpisode: LastEpisode?
     var episodeDetailOutput: EpisodeDetailOutput?
@@ -86,11 +88,18 @@ final class CharactersViewModel: CharactersViewModelProtocol {
         }
     }
     
-    func searchList(name: String, status: String) {
-        services.searchCharacter(characterName: name, characterStatus: status) { [weak self] (response) in
-            self?.search = response
-            self?.searchOutput?.listSearch(values: self?.search ?? [])
+    func searchList(searchResults: String) {
+        services.searchCharacterName(searchCharacterName: searchResults) { [weak self] (response) in
+            self?.searchName = response
+            self?.searchOutput?.listSearchName(values: self?.searchName ?? [])
         } onError: { error in
+            self.services.searchCharacterStatus(searchCharacterStatus: searchResults) { [weak self] (response) in
+                self?.searchStatus = response
+                self?.searchOutput?.listSearchStatus(values: self?.searchStatus ?? [])
+            } onError: { error in
+                self.searchOutput?.listSearchStatus(values: [])
+                print(error)
+            }
             print(error)
         }
     }

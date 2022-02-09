@@ -9,7 +9,7 @@ import Foundation
 
 extension Path {
     class PropertiesPath {
-        static let SEARCH = "Search.. name and status "
+        static let SEARCH = "Search.. name or status "
         static let NO_RESULTS = "There were no results."
         static let CANCEL_FILTER = "Cancel Filter"
     }

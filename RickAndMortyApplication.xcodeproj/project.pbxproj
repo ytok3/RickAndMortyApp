@@ -120,6 +120,7 @@
 		472C891827A5F03300073E38 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				476CB6A027A73D91000C9263 /* ViewModel */,
 				476CB6A327A73ED4000C9263 /* CharactersCollectionView */,
 				472C891927A5F06300073E38 /* CharacterViewController.swift */,
 				476CB6A827A87A1D000C9263 /* CharacterDetailViewController.swift */,
@@ -130,7 +131,6 @@
 		472C891B27A5F13800073E38 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				476CB6A027A73D91000C9263 /* ViewModel */,
 				472C891C27A5F14100073E38 /* Model */,
 				476CB69827A71B2F000C9263 /* ServiceManager.swift */,
 				476CB69A27A72000000C9263 /* Services.swift */,

@@ -9,8 +9,10 @@ import UIKit
 
 protocol SearchBarOutput {
     
-    func listSearch(values: [Character])
-    func searchTexting(cName: String, cStatus: String)
+    func listSearchName(values: [Character])
+    func listSearchStatus(values: [Character])
+    func searchTextingName(searchTextName: String)
+    func searchTextingStatus(searchTextStatus: String)
 }
 
 class CharacterViewController: UIViewController {
@@ -21,7 +23,6 @@ class CharacterViewController: UIViewController {
     private let charactersCollectionViewFeatures: CharactersCollectionViewFeatures = CharactersCollectionViewFeatures()
     private let characterDetailVC: CharacterDetailViewController = CharacterDetailViewController()
     var reloadCharacters: [Character] = []
-    var filteredCharacters: [Character] = []
     
     // MARK: View
     
@@ -128,26 +129,14 @@ extension CharacterViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        let split = searchBar.text!.components(separatedBy: .whitespaces)
-        
-        if split.count > 1 {
-            let first = split[0]
-            let last = split[1]
-            
-            searchBar.endEditing(true)
-            self.searchTexting(cName: first, cStatus: last)
-        }
-        
         navigationItem.rightBarButtonItem?.isEnabled = true
         
-        if navigationItem.rightBarButtonItem?.isEnabled == true {
-            if filteredCharacters.count == 0 {
-                self.charactersCollectionViewFeatures.characters.removeAll()
-                collectionView.reloadData()
-                noResultsLabel.isHidden = false
-            }
-            searchBar.text = nil
-        }
+        searchBar.endEditing(true)
+
+        searchTextingName(searchTextName: searchBar.text!)
+        searchTextingStatus(searchTextStatus: searchBar.text!)
+        
+        searchBar.text = nil
     }
 }
 
@@ -171,16 +160,27 @@ extension CharacterViewController: CharactersOutput {
 }
 
 extension CharacterViewController: SearchBarOutput {
-   
-    func searchTexting(cName: String, cStatus: String) {
-        charactersViewModel.searchList(name: cName, status: cStatus)
+    
+    func searchTextingName(searchTextName: String) {
+        charactersViewModel.searchList(searchResults: searchTextName)
         charactersViewModel.setDelegateSearch(output: self)
         collectionView.reloadData()
     }
     
-    func listSearch(values: [Character]) {
+    func searchTextingStatus(searchTextStatus: String) {
+        charactersViewModel.searchList(searchResults: searchTextStatus)
+        charactersViewModel.setDelegateSearch(output: self)
+        collectionView.reloadData()
+    }
+    
+    func listSearchName(values: [Character]) {
         charactersCollectionViewFeatures.characters = values
-        filteredCharacters = values
+        collectionView.reloadData()
+        noResultsLabel.isHidden = true
+    }
+    
+    func listSearchStatus(values: [Character]) {
+        charactersCollectionViewFeatures.characters = values
         collectionView.reloadData()
         noResultsLabel.isHidden = true
     }

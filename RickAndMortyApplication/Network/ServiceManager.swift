@@ -15,12 +15,12 @@ final class ServiceManager {
 
 extension ServiceManager {
     
-    func fetch<T>(path: String, parameters: [String : String]?, data: Codable?, method: HTTPMethod, onSuccess: @escaping (T) -> Void, onError: (AFError) -> Void) where T : Decodable, T : Encodable {
+    func fetch<T>(path: String, parameters: [String : String]?, data: Codable?, method: HTTPMethod, onSuccess: @escaping (T) -> Void, onError: @escaping (AFError) -> Void) where T : Decodable, T : Encodable {
         
         AF.request(path, method: method, parameters: parameters, encoding: JSONEncoding.default).validate().responseDecodable(of: T.self) { response in
             print(T.self)
             guard let model = response.value else {
-                print(response.error as Any)
+                onError(response.error!)
                 return
             }
             onSuccess(model)

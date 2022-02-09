@@ -11,5 +11,7 @@ extension Path {
     class FirebasePath {
         static let CHARACTERS = "/character"
         static let EPISODE = "/episode"
+        static let NAME = "/?name="
+        static let STATUS = "/?status="
     }
 }
