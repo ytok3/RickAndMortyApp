@@ -20,7 +20,7 @@ protocol EpisodeDetailOutput {
 class CharacterDetailViewController: UIViewController {
     
     var lastSeenEpisode: String?
-    private let charactersViewModel: CharactersViewModelProtocol = CharactersViewModel()
+    private let charactersViewModel: CharactersViewModelProtocol = CharactersViewModel(service: Services())
     
     // MARK: View
     

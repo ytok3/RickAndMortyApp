@@ -19,10 +19,10 @@ class CharacterViewController: UIViewController {
     
     // MARK: Properties
     
-    private let charactersViewModel: CharactersViewModelProtocol = CharactersViewModel()
+    private let charactersViewModel: CharactersViewModelProtocol = CharactersViewModel(service: Services())
     private let charactersCollectionViewFeatures: CharactersCollectionViewFeatures = CharactersCollectionViewFeatures()
     private let characterDetailVC: CharacterDetailViewController = CharacterDetailViewController()
-    var reloadCharacters: [Character] = []
+    private var reloadCharacters: [Character] = []
     
     // MARK: View
     
@@ -59,26 +59,35 @@ class CharacterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(title: Path.PropertiesPath.CANCEL_FILTER, style: .plain, target: self, action: #selector(clearFilter))
+        navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(
+            title: Path.PropertiesPath.CANCEL_FILTER,
+            style: .plain,
+            target: self,
+            action: #selector(clearFilter)
+        )
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         
-        collectionView.delegate = charactersCollectionViewFeatures
-        collectionView.dataSource = charactersCollectionViewFeatures
         charactersCollectionViewFeatures.delegate = self
-    
         searchBar.delegate = self
         
-        charactersViewModel.setDelegateCharacters(output: self)
-        charactersViewModel.allCharacters()
-        
-        noResultsLabel.isHidden = true
-        
+        setUpDelegate()
         setUpView()
     }
     
     // MARK: Func
     
+    func setUpDelegate() {
+        
+        collectionView.delegate = charactersCollectionViewFeatures
+        collectionView.dataSource = charactersCollectionViewFeatures
+        
+        charactersViewModel.setDelegateCharacters(output: self)
+        charactersViewModel.allCharacters()
+    }
+    
     func setUpView() {
+        
+        noResultsLabel.isHidden = true
         
         view.backgroundColor = .white
         view.addSubview(searchBar)

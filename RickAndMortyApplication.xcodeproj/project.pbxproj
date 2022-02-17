@@ -120,10 +120,8 @@
 		472C891827A5F03300073E38 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				476CB6A027A73D91000C9263 /* ViewModel */,
-				476CB6A327A73ED4000C9263 /* CharactersCollectionView */,
-				472C891927A5F06300073E38 /* CharacterViewController.swift */,
-				476CB6A827A87A1D000C9263 /* CharacterDetailViewController.swift */,
+				4767C1B427B940EB008E8BDB /* CharacterListDetail */,
+				4767C1B327B940C9008E8BDB /* CharacterList */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -159,6 +157,24 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		4767C1B327B940C9008E8BDB /* CharacterList */ = {
+			isa = PBXGroup;
+			children = (
+				476CB6A127A73DAB000C9263 /* CharacterViewModel.swift */,
+				472C891927A5F06300073E38 /* CharacterViewController.swift */,
+				476CB6A327A73ED4000C9263 /* CharactersCollectionView */,
+			);
+			path = CharacterList;
+			sourceTree = "<group>";
+		};
+		4767C1B427B940EB008E8BDB /* CharacterListDetail */ = {
+			isa = PBXGroup;
+			children = (
+				476CB6A827A87A1D000C9263 /* CharacterDetailViewController.swift */,
+			);
+			path = CharacterListDetail;
+			sourceTree = "<group>";
+		};
 		476CB69127A717E3000C9263 /* Path */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,14 +186,6 @@
 				4767C1AD27AB3496008E8BDB /* CharacterDetailPath.swift */,
 			);
 			path = Path;
-			sourceTree = "<group>";
-		};
-		476CB6A027A73D91000C9263 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				476CB6A127A73DAB000C9263 /* CharacterViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		476CB6A327A73ED4000C9263 /* CharactersCollectionView */ = {
