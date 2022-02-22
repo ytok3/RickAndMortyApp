@@ -33,6 +33,7 @@ final class CharactersViewModel: CharactersViewModelProtocol {
     private var searchOutput: SearchBarOutput?
     private var lastEpisode: LastEpisode?
     private var episodeDetailOutput: EpisodeDetailOutput?
+
     
     // MARK: Init
     
@@ -71,7 +72,7 @@ final class CharactersViewModel: CharactersViewModelProtocol {
         service.getCharacterDetail(characterId: id) { [weak self] (response) in
             self?.characterDetail = response
             self?.characterDetailOutput?.listCharacterDetail(model: self?.characterDetail)
-            self?.characterDetailOutput?.lastEpisode(value: self?.characterDetail?.episode?.last ?? "")
+            self?.episodeDetail(episode: self?.characterDetail?.episode?.last ?? "")
         } onError: { error in
             print(error)
         }

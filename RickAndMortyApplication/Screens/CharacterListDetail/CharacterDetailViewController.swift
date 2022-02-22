@@ -10,17 +10,13 @@ import AlamofireImage
 
 protocol CharacterDetailOutput {
     func listCharacterDetail(model: CharacterDetail?)
-    func lastEpisode(value: String)
-    
 }
+
 protocol EpisodeDetailOutput {
     func episodeDetail(model: LastEpisode?)
 }
 
 class CharacterDetailViewController: UIViewController {
-    
-    var lastSeenEpisode: String?
-    private let charactersViewModel: CharactersViewModelProtocol = CharactersViewModel(service: Services())
     
     // MARK: View
     
@@ -226,13 +222,6 @@ extension CharacterDetailViewController: CharacterDetailOutput {
         originLocationNameLabel.text = Path.CharacterDetailPath.ORIGIN_LOCATION + (model?.origin?.name)!
         lastKnownLocationNameLabel.text = Path.CharacterDetailPath.KNOWN_LOCATION + (model?.location?.name)!
         characterImage.af.setImage(withURL: URL(string: (model?.image)!)!)
-    }
-    
-    func lastEpisode(value: String) {
-        lastSeenEpisode = value
-        print(lastSeenEpisode ?? "" )
-        charactersViewModel.setDelegateLastEpisode(output: self)
-        charactersViewModel.episodeDetail(episode: lastSeenEpisode ?? "")
     }
 }
 

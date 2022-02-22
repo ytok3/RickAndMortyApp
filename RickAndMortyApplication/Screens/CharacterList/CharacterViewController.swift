@@ -158,6 +158,7 @@ extension CharacterViewController: CharactersOutput {
     func onSelected(characterID: Int) {
         charactersViewModel.characterDetail(id: characterID)
         charactersViewModel.setDelegateCharacterDetail(output: characterDetailVC)
+        charactersViewModel.setDelegateLastEpisode(output: characterDetailVC)
         self.navigationController?.pushViewController(characterDetailVC, animated: true)
     }
     
